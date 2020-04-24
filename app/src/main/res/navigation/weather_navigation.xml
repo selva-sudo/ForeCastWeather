@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/weather_fragment">
+
+    <fragment
+        android:id="@+id/weather_fragment"
+        android:name="com.selvaraj.forecastweatherapp.ui.WeatherFragment"
+        tools:layout="@layout/fragment_weather">
+
+        <action
+            android:id="@+id/action_forecast_weather_fragment"
+            app:destination="@id/forecast_weather_fragment"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/forecast_weather_fragment"
+        android:name="com.selvaraj.forecastweatherapp.ui.ForecastWeatherFragment"
+        android:label="@string/forecast_weather_details"
+        tools:layout="@layout/fragment_forecast_weather">
+        <argument
+            android:name="plantId"
+            app:argType="string"/>
+    </fragment>
+
+</navigation>

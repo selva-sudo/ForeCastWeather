@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="@dimen/spacing_20"
+    android:paddingTop="@dimen/spacing_30"
+    android:paddingEnd="@dimen/spacing_20"
+    android:paddingBottom="@dimen/spacing_10">
+
+    <TextView
+        android:id="@+id/tv_forecast_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/baloo_tamma_medium"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_20"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/iv_forecast_weather_status"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.5"
+        tools:text="Tuesday, 20"/>
+
+    <ImageView
+        android:id="@+id/iv_forecast_weather_status"
+        android:layout_width="@dimen/spacing_30"
+        android:layout_height="@dimen/spacing_30"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tv_forecast_min"
+        app:layout_constraintStart_toEndOf="@+id/tv_forecast_date"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription"
+        tools:src="@drawable/ic_cloud_moon"/>
+
+    <TextView
+        android:id="@+id/tv_forecast_min"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/baloo_tamma_semi_bold"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_22"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tv_forecast_max"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@+id/iv_forecast_weather_status"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.15"
+        tools:text="26 \u00B0"/>
+
+    <TextView
+        android:id="@+id/tv_forecast_max"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/baloo_tamma_semi_bold"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_22"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_forecast_min"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.15"
+        tools:text="26 \u00B0"/>
+
+    <View
+        android:id="@+id/tv_divider"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/spacing_3"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_forecast_max"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

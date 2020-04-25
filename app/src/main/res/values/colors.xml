@@ -4,4 +4,69 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="ic_launcher_background">#FFFFFF</color>
+
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+    <color name="snack_bar_color">#FFFFCC00</color>
+    <color name="snack_bar_text">#ff000000</color>
+    <color name="silver_chalice">#a5a5a5</color>
+    <color name="chablis">#fff0f0</color>
+    <color name="vivid_tangerine">#ff8181</color>
+    <color name="text_hint">#707070</color>
+    <color name="black_transclucent_50">#80000000</color>
+    <color name="cerulean_blue">#2657a8</color>
+    <color name="transclucent_black">#32000000</color>
+    <color name="light_green">#36a826</color>
+    <color name="transclucent_white">#8FFF</color>
+    <color name="iron">#cfd1d2</color>
+    <color name="mine_shaft_272727">#272727</color>
+
+    <color name="mine_shaft">#3c3c3c</color>
+    <color name="grey">#d8d8d8</color>
+    <color name="gallery">#eeeeee</color>
+    <color name="light_grey">#F0F0F0</color>
+    <color name="forest_green">#36a826</color>
+    <color name="gray">#838383</color>
+    <color name="grey_aaaaaa">#aaaaaa</color>
+    <color name="link_water">#d9edf7</color>
+    <color name="lochinvar">#2b827d</color>
+    <color name="mountain_meadow">#1abc9c</color>
+    <color name="amethyst">#9b6bcc</color>
+    <color name="silver">#c4c4c4</color>
+    <color name="fiord">#435168</color>
+    <color name="silver_bcbcbc">#bcbcbc</color>
+    <color name="mountain_meadow_16b359">#16b359</color>
+    <color name="blue_ribbon">#004eff</color>
+    <color name="alto">#d4d4d4</color>
+    <color name="wild_sand">#f6f6f6</color>
+    <color name="zest">#e67e22</color>
+    <color name="supernova">#ffcc00</color>
+    <color name="scorpion">#5a5a5a</color>
+    <color name="fair_pink">#ffecec</color>
+    <color name="mercury">#e2e2e2</color>
+    <color name="vermilion">#ff4c06</color>
+    <color name="gallery_efefef">#efefef</color>
+    <color name="dove_gray">#6b6b6b</color>
+    <color name="studio">#8e44ad</color>
+    <color name="genoa">#1a946a</color>
+    <color name="persian_green">#009688</color>
+    <color name="blue">#2757a9</color>
+
+    //Chat
+    <color name="message_receiver_name_color">#789bd5</color>
+    <color name="nav_item_select">#2657a8</color>
+    <color name="gull_grey">#96a4ba</color>
+    <color name="message_sender_name_color">#bcd3f6</color>
+    <color name="grey_white">#e2e2e2</color>
+    <color name="emperor">#535353</color>
+    <color name="sushi">#76B831</color>
+
+    <color name="maintenance_green">#36a826</color>
+    <color name="maintenance_blue">#2657a8</color>
+    <color name="maintenance_orange">#ffcc00</color>
+    <color name="maintenance_red">@color/colorPrimaryDark</color>
+    <color name="maintenance_pink">#04c2bb</color>
+    <color name="background_bg">#f0f0f0</color>
+    <color name="medium_grey">#787878</color>
+    <color name="semi_transparent">#7FFFFFFF</color>
 </resources>

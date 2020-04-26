@@ -1,14 +1,338 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.ForecastWeatherFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.selvaraj.forecastweatherapp.viewmodel.ForecastWeatherViewModel"/>
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hello"/>
+        android:background="@color/white"
+        android:fitsSystemWindows="true"
+        tools:context=".ui.ForecastWeatherFragment"
+        tools:ignore="MergeRootFrame,ContentDescription">
 
-</FrameLayout>
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/weather_detail_app_bar_height"
+            android:animateLayoutChanges="true"
+            android:background="@color/colorPrimary"
+            android:fitsSystemWindows="true"
+            android:stateListAnimator="@animator/show_toolbar"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/toolbar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                app:collapsedTitleGravity="center"
+                app:collapsedTitleTextAppearance="@style/TextAppearance.Toolbar.Text"
+                app:contentScrim="@color/gull_grey"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:statusBarScrim="@android:color/darker_gray"
+                app:title="@{}"
+                app:titleEnabled="false"
+                app:toolbarId="@id/toolbar">
+
+                <ImageView
+                    android:id="@+id/detail_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/weather_detail_app_bar_height"
+                    android:fitsSystemWindows="true"
+                    android:scaleType="centerInside"
+                    app:imageUrl="@{viewmodel.imageUrl}"
+                    app:layout_collapseMode="parallax"
+                    tools:src="@drawable/ic_cloud"/>
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="@android:color/transparent"
+                    app:contentInsetStartWithNavigation="0dp"
+                    app:layout_collapseMode="pin"
+                    app:navigationIcon="@drawable/ic_detail_back"
+                    app:titleTextColor="@color/mine_shaft"/>
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/weather_detail_scrollview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/spacing_16">
+
+                <TextView
+                    android:id="@+id/tv_weather_state"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/baloo_tamma_bold"
+                    android:gravity="center"
+                    android:text="@{viewmodel.weatherState}"
+                    android:textColor="@color/mine_shaft"
+                    android:textSize="@dimen/font_25"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Clouds"/>
+
+                <TextView
+                    android:id="@+id/tv_weather_des"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/baloo_tamma_medium"
+                    android:gravity="center"
+                    android:text="@{viewmodel.weatherDescription}"
+                    android:textColor="@color/mine_shaft"
+                    android:textSize="@dimen/font_20"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_weather_state"
+                    tools:text="overcast clouds"/>
+
+                <TextView
+                    android:id="@+id/tv_forecast_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/baloo_tamma_bold"
+                    android:gravity="center"
+                    android:text="@{viewmodel.period}"
+                    android:textColor="@color/mine_shaft"
+                    android:textSize="@dimen/font_20"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_weather_des"
+                    tools:text="Tuesday, 20"/>
+
+                <TextView
+                    android:id="@+id/tv_min"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_20"
+                    android:layout_marginEnd="@dimen/spacing_15"
+                    android:fontFamily="@font/baloo_tamma_medium"
+                    android:gravity="end"
+                    android:text="@string/min"
+                    android:textColor="@color/medium_grey"
+                    android:textSize="@dimen/font_16"
+                    app:layout_constraintEnd_toStartOf="@+id/v_vertical_divider_one"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_forecast_date"/>
+
+                <TextView
+                    android:id="@+id/tv_max"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_15"
+                    android:layout_marginTop="@dimen/spacing_20"
+                    android:fontFamily="@font/baloo_tamma_medium"
+                    android:text="@string/max"
+                    android:textColor="@color/medium_grey"
+                    android:textSize="@dimen/font_16"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/v_vertical_divider_one"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_forecast_date"/>
+
+                <TextView
+                    android:id="@+id/tv_min_weather"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/baloo_tamma_bold"
+                    android:gravity="end"
+                    android:text="@{viewmodel.minTemp}"
+                    android:textColor="@color/mine_shaft"
+                    android:textSize="@dimen/font_16"
+                    app:layout_constraintEnd_toEndOf="@+id/tv_min"
+                    app:layout_constraintStart_toStartOf="@+id/tv_min"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_min"
+                    tools:text="30\u00B0"/>
+
+                <TextView
+                    android:id="@+id/tv_mmx_weather"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/baloo_tamma_bold"
+                    android:text="@{viewmodel.maxTemp}"
+                    android:textColor="@color/mine_shaft"
+                    android:textSize="@dimen/font_16"
+                    app:layout_constraintEnd_toEndOf="@+id/tv_max"
+                    app:layout_constraintStart_toStartOf="@+id/tv_max"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_max"
+                    tools:text="30\u00B0"/>
+
+                <View
+                    android:id="@+id/v_vertical_divider_one"
+                    android:layout_width="1dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/spacing_10"
+                    android:layout_marginBottom="@dimen/spacing_10"
+                    android:background="#40000000"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_min_weather"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_max"
+                    app:layout_constraintStart_toEndOf="@+id/tv_min"
+                    app:layout_constraintTop_toTopOf="@+id/tv_min"/>
+
+                <View
+                    android:id="@+id/v_horizontal_divider_one"
+                    android:layout_width="0dp"
+                    android:layout_height="0.2dp"
+                    android:layout_marginTop="@dimen/spacing_20"
+                    android:background="#40000000"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_min_weather"/>
+
+                <TextView
+                    android:id="@+id/tv_humidity_header"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_8"
+                    android:layout_marginTop="@dimen/spacing_10"
+                    android:fontFamily="@font/baloo_tamma_regular"
+                    android:gravity="center"
+                    android:text="@string/humidity"
+                    android:textColor="@color/mine_shaft"
+                    android:textSize="@dimen/font_16"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_wind_header"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/v_horizontal_divider_one"/>
+
+                <View
+                    android:id="@+id/v_vertical_divider_two"
+                    android:layout_width="1dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/spacing_6"
+                    android:layout_marginBottom="@dimen/spacing_6"
+                    android:background="@color/black_transclucent_50"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_humidity"
+                    app:layout_constraintStart_toEndOf="@+id/tv_humidity"
+                    app:layout_constraintTop_toTopOf="@+id/tv_humidity_header"/>
+
+                <TextView
+                    android:id="@+id/tv_humidity"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/baloo_tamma_semi_bold"
+                    android:gravity="center"
+                    android:text="@{viewmodel.humidity}"
+                    android:textColor="@color/mine_shaft"
+                    android:textSize="@dimen/font_20"
+                    app:layout_constraintEnd_toEndOf="@+id/tv_humidity_header"
+                    app:layout_constraintStart_toStartOf="@+id/tv_humidity_header"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_humidity_header"
+                    tools:text="80%"/>
+
+                <TextView
+                    android:id="@+id/tv_wind_header"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_10"
+                    android:fontFamily="@font/baloo_tamma_regular"
+                    android:gravity="center"
+                    android:text="@string/wind"
+                    android:textColor="@color/mine_shaft"
+                    android:textSize="@dimen/font_16"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_pressure_header"
+                    app:layout_constraintStart_toEndOf="@+id/tv_humidity_header"
+                    app:layout_constraintTop_toBottomOf="@+id/v_horizontal_divider_one"/>
+
+                <View
+                    android:id="@+id/v_vertical_divider_three"
+                    android:layout_width="1dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/spacing_6"
+                    android:layout_marginBottom="@dimen/spacing_6"
+                    android:background="@color/black_transclucent_50"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_wind"
+                    app:layout_constraintStart_toEndOf="@+id/tv_wind"
+                    app:layout_constraintTop_toTopOf="@+id/tv_wind_header"/>
+
+                <TextView
+                    android:id="@+id/tv_wind"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/baloo_tamma_semi_bold"
+                    android:gravity="center"
+                    android:text="@{viewmodel.wind}"
+                    android:textColor="@color/mine_shaft"
+                    android:textSize="@dimen/font_20"
+                    app:layout_constraintEnd_toEndOf="@+id/tv_wind_header"
+                    app:layout_constraintStart_toStartOf="@+id/tv_wind_header"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_wind_header"
+                    tools:text="3 m/s"/>
+
+                <TextView
+                    android:id="@+id/tv_pressure_header"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_10"
+                    android:layout_marginEnd="@dimen/spacing_8"
+                    android:fontFamily="@font/baloo_tamma_regular"
+                    android:gravity="center"
+                    android:text="@string/pressure"
+                    android:textColor="@color/mine_shaft"
+                    android:textSize="@dimen/font_16"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/tv_wind_header"
+                    app:layout_constraintTop_toBottomOf="@+id/v_horizontal_divider_one"/>
+
+                <TextView
+                    android:id="@+id/tv_pressure"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/baloo_tamma_semi_bold"
+                    android:gravity="center"
+                    android:text="@{viewmodel.pressure}"
+                    android:textColor="@color/mine_shaft"
+                    android:textSize="@dimen/font_20"
+                    app:layout_constraintEnd_toEndOf="@+id/tv_pressure_header"
+                    app:layout_constraintStart_toStartOf="@+id/tv_pressure_header"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_pressure_header"
+                    tools:text="740 hPa"/>
+
+                <View
+                    android:id="@+id/v_horizontal_divider_two"
+                    android:layout_width="0dp"
+                    android:layout_height="0.2dp"
+                    android:layout_marginTop="@dimen/spacing_20"
+                    android:background="#40000000"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_pressure"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_current_weather"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_10"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/spacing_10"
+                    android:paddingEnd="@dimen/spacing_8"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/v_horizontal_divider_two"
+                    tools:listitem="@layout/today_weather_item"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

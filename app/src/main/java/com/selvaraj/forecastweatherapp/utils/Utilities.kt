@@ -1,11 +1,9 @@
 package com.selvaraj.forecastweatherapp.utils
 
-import android.animation.TimeInterpolator
 import android.content.Context
 import android.text.format.DateFormat
 import android.util.Log
 import android.widget.Toast
-import androidx.core.view.animation.PathInterpolatorCompat
 import com.selvaraj.forecastweatherapp.R
 import com.selvaraj.forecastweatherapp.base.WeatherApplication
 import com.selvaraj.forecastweatherapp.model.DayWeather
@@ -55,30 +53,8 @@ fun Date?.checkDatesNotEqual(date: Date?): Boolean =
 fun Date?.checkDatesEqual(date: Date?): Boolean =
     this.getDateFromDate() == date.getDateFromDate()
 
-
-/**
- * Accelerate easing.
- *
- * Elements exiting a screen use acceleration easing, where they start at rest and end at peak
- * velocity.
- */
-val FAST_OUT_LINEAR_IN: TimeInterpolator by lazy(LazyThreadSafetyMode.NONE) {
-    PathInterpolatorCompat.create(0.4f, 0f, 1f, 1f)
-}
-
-
-/**
- * Decelerate easing.
- *
- * Incoming elements are animated using deceleration easing, which starts a transition at peak
- * velocity (the fastest point of an element’s movement) and ends at rest.
- */
-val LINEAR_OUT_SLOW_IN: TimeInterpolator by lazy(LazyThreadSafetyMode.NONE) {
-    PathInterpolatorCompat.create(0f, 0f, 0.2f, 1f)
-}
-
-fun getWeatherItemList(weatherList: List<WeatherList>): Pair<MutableList<TodayWeather>, MutableList<WeatherList>> {
-    val todayWeather: MutableList<TodayWeather> = mutableListOf()
+fun getWeatherItemList(weatherList: List<WeatherList>): Pair<MutableList<DayWeather>, MutableList<WeatherList>> {
+    val dayWeather: MutableList<DayWeather> = mutableListOf()
     val forecastWeather: MutableList<WeatherList> = mutableListOf()
     var dateForCheck: Date? = Date()
     for (position in weatherList.indices) {

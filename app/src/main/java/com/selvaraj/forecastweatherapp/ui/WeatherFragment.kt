@@ -40,20 +40,6 @@ class WeatherFragment : Fragment() {
             .get(WeatherViewModel::class.java)
     }
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        exitTransition = Fade(Fade.OUT).apply {
-            duration = LARGE_EXPAND_DURATION / 2
-            interpolator = FAST_OUT_LINEAR_IN
-        }
-        reenterTransition = Fade(Fade.IN).apply {
-            duration = LARGE_COLLAPSE_DURATION / 2
-            startDelay = LARGE_COLLAPSE_DURATION / 2
-            interpolator = LINEAR_OUT_SLOW_IN
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -154,7 +140,15 @@ class WeatherFragment : Fragment() {
             weatherList = forecastItems,
             itemClickCallback = object : Callback {
                 override fun onForecastItemClick(weatherItem: WeatherList?) {
-
+                    weatherItem?.let {
+                        val direction = actionForecastWeatherFragment(
+                            getParticularWeatherList(
+                                it,
+                                weatherViewModel.weatherList
+                            )
+                        )
+                        findNavController().navigate(direction)
+                    }
                 }
             })
         rvForecastWeather.adapter = forecastAdapter

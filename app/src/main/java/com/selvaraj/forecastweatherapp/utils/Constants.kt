@@ -5,5 +5,3 @@ const val BASE_URL = "https://api.openweathermap.org/data/2.5/"
 const val APP_ID = "110f15093fef12228dba6de14210594b"
 const val WEATHER_UNITS = "metric"
 const val WEATHER_ICON_URL = "https://openweathermap.org/img/wn/"
-const val LARGE_EXPAND_DURATION = 300L
-const val LARGE_COLLAPSE_DURATION = 250L

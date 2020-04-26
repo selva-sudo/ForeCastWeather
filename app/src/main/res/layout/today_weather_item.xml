@@ -17,23 +17,24 @@
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:elevation="@dimen/spacing_4"
-        android:padding="@dimen/spacing_10"
-        app:layout_constraintCircleRadius="@dimen/spacing_5"
-        tools:background="@android:color/holo_blue_dark">
+        android:paddingTop="@dimen/spacing_10"
+        android:paddingBottom="@dimen/spacing_10"
+        app:layout_constraintCircleRadius="@dimen/spacing_5">
 
         <TextView
             android:id="@+id/tv_weather_item_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_15"
             android:fontFamily="@font/baloo_tamma_regular"
             android:gravity="center"
             android:paddingStart="0dp"
             android:paddingEnd="@dimen/spacing_7"
             android:text="@{todayViewModel.period}"
-            android:textColor="@color/white"
-            android:textSize="@dimen/font_21"
+            android:textColor="@color/mine_shaft"
+            android:textSize="@dimen/font_17"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/v_vertical_divider_item"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Now"/>
 
@@ -41,30 +42,47 @@
             android:id="@+id/tv_weather_celsius_item"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_15"
             android:fontFamily="@font/baloo_tamma_bold"
             android:paddingStart="0dp"
             android:paddingEnd="@dimen/spacing_7"
             android:text="@{todayViewModel.weather}"
-            android:textColor="@color/white"
+            android:textColor="@color/mine_shaft"
             android:textSize="@dimen/font_18"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/tv_weather_item_time"
+            app:layout_constraintStart_toStartOf="@+id/v_vertical_divider_item"
             app:layout_constraintTop_toBottomOf="@+id/tv_weather_item_time"
             tools:text="16 \u00B0"/>
 
         <ImageView
             android:id="@+id/iv_weather_state_item"
             android:layout_width="0dp"
-            android:layout_height="@dimen/spacing_30"
+            android:layout_height="@dimen/spacing_40"
+            android:layout_marginStart="@dimen/spacing_15"
             android:paddingStart="0dp"
             android:paddingEnd="@dimen/spacing_7"
-            android:scaleType="centerInside"
+            android:scaleType="fitXY"
             app:imageUrl="@{todayViewModel.imageUrl}"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="H,1:1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/v_vertical_divider_item"
             app:layout_constraintTop_toBottomOf="@+id/tv_weather_celsius_item"
             tools:ignore="ContentDescription"
-            tools:src="@drawable/ic_cloud_moon"/>
+            tools:src="@drawable/ic_cloud"
+            tools:tint="@color/black"/>
+
+        <View
+            android:id="@+id/v_vertical_divider_item"
+            android:layout_width="0.3dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/spacing_15"
+            android:layout_marginBottom="@dimen/spacing_15"
+            android:background="@color/black_transclucent_50"
+            android:visibility="@{todayViewModel.showVerticalLine}"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_weather_state_item"
+            app:layout_constraintEnd_toStartOf="@+id/tv_weather_item_time"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_weather_item_time"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

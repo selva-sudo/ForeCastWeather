@@ -8,8 +8,9 @@ import android.widget.Toast
 import androidx.core.view.animation.PathInterpolatorCompat
 import com.selvaraj.forecastweatherapp.R
 import com.selvaraj.forecastweatherapp.base.WeatherApplication
-import com.selvaraj.forecastweatherapp.model.TodayWeather
+import com.selvaraj.forecastweatherapp.model.DayWeather
 import com.selvaraj.forecastweatherapp.model.response.WeatherList
+import com.selvaraj.forecastweatherapp.model.response.WeatherResponse
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -23,7 +24,7 @@ fun Date?.getDayFromDate() = DateFormat.format("EEEE", this) as String // Thursd
 
 fun Date?.getDateFromDate() = DateFormat.format("dd", this) as String // 20
 
-fun Date?.getHourFromDate() = DateFormat.format("HH", this) as String // 10;
+fun Date?.getHourFromDate() = DateFormat.format("HH", this) as String // 10
 
 fun Date?.getMinFromDate() = DateFormat.format("mm", this) as String // :30
 
@@ -50,6 +51,9 @@ fun checkToday(date: Date?): Boolean {
 
 fun Date?.checkDatesNotEqual(date: Date?): Boolean =
     this.getDateFromDate() != date.getDateFromDate()
+
+fun Date?.checkDatesEqual(date: Date?): Boolean =
+    this.getDateFromDate() == date.getDateFromDate()
 
 
 /**
@@ -90,8 +94,8 @@ fun getWeatherItemList(weatherList: List<WeatherList>): Pair<MutableList<TodayWe
             val minutes = date.getMinFromDate()
             val period =
                 if (position == 0) WeatherApplication.mInstance.getString(R.string.now) else "$hours:$minutes"
-            todayWeather.add(
-                TodayWeather(
+            dayWeather.add(
+                DayWeather(
                     period = period,
                     weather = weather.main?.temp,
                     url = url
@@ -102,5 +106,26 @@ fun getWeatherItemList(weatherList: List<WeatherList>): Pair<MutableList<TodayWe
             dateForCheck = date
         }
     }
-    return Pair(todayWeather, forecastWeather)
+    return Pair(dayWeather, forecastWeather)
+}
+
+fun getParticularWeatherList(
+    weatherItem: WeatherList,
+    weatherList: List<WeatherList>?
+): WeatherResponse {
+    val selectedWeatherList: MutableList<WeatherList> = mutableListOf()
+    val dateForCheck = getDate(weatherItem.dtTxt)
+    weatherList?.let {
+        for (weather in weatherList) {
+            val date = getDate(weather.dtTxt)
+            if (date.checkDatesEqual(dateForCheck)) {
+                selectedWeatherList.add(weather)
+            } else if (selectedWeatherList.isNotEmpty()) {
+                break
+            }
+        }
+    }
+    return WeatherResponse().apply {
+        list = selectedWeatherList
+    }
 }

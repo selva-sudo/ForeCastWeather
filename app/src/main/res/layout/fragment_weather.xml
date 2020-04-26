@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewmodel"
             type="com.selvaraj.forecastweatherapp.viewmodel.WeatherViewModel"/>
@@ -20,7 +21,7 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:cardBackgroundColor="@android:color/holo_blue_dark"
+            app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="@dimen/spacing_10"
             app:cardElevation="@dimen/spacing_6"
             app:cardMaxElevation="@dimen/spacing_10"
@@ -41,7 +42,7 @@
                     android:paddingStart="@dimen/spacing_10"
                     android:paddingEnd="@dimen/spacing_8"
                     android:text="@{viewmodel.todayDate}"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/mine_shaft"
                     android:textSize="25sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -54,7 +55,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/baloo_tamma_bold"
                     android:text="@{viewmodel.todayTemp}"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/mine_shaft"
                     android:textSize="30sp"
                     app:layout_constraintEnd_toStartOf="@+id/iv_weather_state"
                     app:layout_constraintStart_toStartOf="parent"
@@ -68,7 +69,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/baloo_tamma_bold"
                     android:text="@{viewmodel.weatherStatus}"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/mine_shaft"
                     app:layout_constraintEnd_toStartOf="@+id/iv_weather_state"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_today_temp"
@@ -84,19 +85,21 @@
 
                 <ImageView
                     android:id="@+id/iv_weather_state"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="0dp"
                     app:imageUrl="@{viewmodel.imageUrl}"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_today_weather"
+                    app:layout_constraintDimensionRatio="W,1:1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/barrier_weather_details"
                     app:layout_constraintTop_toBottomOf="@+id/tv_day"
+                    app:layout_constraintWidth_percent="0.25"
                     tools:ignore="ContentDescription"
-                    tools:src="@drawable/ic_cloud_rain"/>
+                    tools:src="@drawable/ic_cloud"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_today_weather"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_10"
                     android:orientation="horizontal"
@@ -105,8 +108,10 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_today_weather"
+                    tools:itemCount="2"
                     tools:listitem="@layout/today_weather_item"/>
 
                 <TextView
@@ -118,21 +123,31 @@
                     android:fontFamily="@font/baloo_tamma_regular"
                     android:gravity="center"
                     android:text="@string/humidity"
-                    android:textColor="@color/white"
+                    android:textColor="@color/mine_shaft"
                     android:textSize="@dimen/font_16"
                     app:layout_constraintEnd_toStartOf="@+id/tv_wind_header"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/rv_today_weather"/>
 
+                <View
+                    android:id="@+id/v_vertical_divider_one"
+                    android:layout_width="1dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/spacing_6"
+                    android:layout_marginBottom="@dimen/spacing_6"
+                    android:background="@color/black_transclucent_50"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_humidity"
+                    app:layout_constraintStart_toEndOf="@+id/tv_humidity"
+                    app:layout_constraintTop_toTopOf="@+id/tv_humidity_header"/>
+
                 <TextView
                     android:id="@+id/tv_humidity"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_5"
                     android:fontFamily="@font/baloo_tamma_semi_bold"
                     android:gravity="center"
                     android:text="@{viewmodel.humidity}"
-                    android:textColor="@color/white"
+                    android:textColor="@color/mine_shaft"
                     android:textSize="@dimen/font_20"
                     app:layout_constraintEnd_toEndOf="@+id/tv_humidity_header"
                     app:layout_constraintStart_toStartOf="@+id/tv_humidity_header"
@@ -147,21 +162,31 @@
                     android:fontFamily="@font/baloo_tamma_regular"
                     android:gravity="center"
                     android:text="@string/wind"
-                    android:textColor="@color/white"
+                    android:textColor="@color/mine_shaft"
                     android:textSize="@dimen/font_16"
                     app:layout_constraintEnd_toStartOf="@+id/tv_pressure_header"
                     app:layout_constraintStart_toEndOf="@+id/tv_humidity_header"
                     app:layout_constraintTop_toBottomOf="@+id/rv_today_weather"/>
 
+                <View
+                    android:id="@+id/v_vertical_divider_two"
+                    android:layout_width="1dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/spacing_6"
+                    android:layout_marginBottom="@dimen/spacing_6"
+                    android:background="@color/black_transclucent_50"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_wind"
+                    app:layout_constraintStart_toEndOf="@+id/tv_wind"
+                    app:layout_constraintTop_toTopOf="@+id/tv_wind_header"/>
+
                 <TextView
                     android:id="@+id/tv_wind"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_5"
                     android:fontFamily="@font/baloo_tamma_semi_bold"
                     android:gravity="center"
                     android:text="@{viewmodel.wind}"
-                    android:textColor="@color/white"
+                    android:textColor="@color/mine_shaft"
                     android:textSize="@dimen/font_20"
                     app:layout_constraintEnd_toEndOf="@+id/tv_wind_header"
                     app:layout_constraintStart_toStartOf="@+id/tv_wind_header"
@@ -177,7 +202,7 @@
                     android:fontFamily="@font/baloo_tamma_regular"
                     android:gravity="center"
                     android:text="@string/pressure"
-                    android:textColor="@color/white"
+                    android:textColor="@color/mine_shaft"
                     android:textSize="@dimen/font_16"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tv_wind_header"
@@ -187,11 +212,10 @@
                     android:id="@+id/tv_pressure"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_5"
                     android:fontFamily="@font/baloo_tamma_semi_bold"
                     android:gravity="center"
                     android:text="@{viewmodel.pressure}"
-                    android:textColor="@color/white"
+                    android:textColor="@color/mine_shaft"
                     android:textSize="@dimen/font_20"
                     app:layout_constraintEnd_toEndOf="@+id/tv_pressure_header"
                     app:layout_constraintStart_toStartOf="@+id/tv_pressure_header"
@@ -218,12 +242,13 @@
                     android:id="@+id/progress_people"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:theme="@style/ProgressBarTheme"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:visibility="@{viewmodel.progress}"
-                    tools:visibility="gone"/>
+                    tools:visibility="visible"/>
 
                 <androidx.constraintlayout.widget.Group
                     android:id="@+id/group_data"
@@ -240,7 +265,7 @@
                     android:fontFamily="@font/baloo_tamma_regular"
                     android:gravity="center"
                     android:text="@string/weather_error_message"
-                    android:textColor="@color/white"
+                    android:textColor="@color/mine_shaft"
                     android:textSize="@dimen/font_17"
                     app:layout_constraintBottom_toTopOf="@+id/btn_retry"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -258,7 +283,7 @@
                     android:fontFamily="@font/baloo_tamma_semi_bold"
                     android:onClick="@{viewmodel::onRetryClick}"
                     android:text="@string/retry"
-                    android:textColor="@color/white"
+                    android:textColor="@color/mine_shaft"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

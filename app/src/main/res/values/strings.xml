@@ -10,4 +10,6 @@
     <string name="wind">Wind</string>
     <string name="pressure">Pressure</string>
     <string name="humidity_value">%d %</string>
+    <string name="min">Min</string>
+    <string name="max">Max</string>
 </resources>

@@ -8,7 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppTheme.NoActionBar">
+    <style name="AppTheme.NoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -21,5 +21,13 @@
 
     <style name="CollapsingTextAppearance.TitleSize">
         <item name="android:textSize">30sp</item>
+    </style>
+
+    <style name="TextAppearance.Toolbar.Text" parent="TextAppearance.AppCompat.Widget.ActionMode.Title">
+        <item name="android:textColor">@color/mine_shaft</item>
+    </style>
+
+    <style name="ProgressBarTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@android:color/holo_blue_light</item>
     </style>
 </resources>

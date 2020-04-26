@@ -10,15 +10,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.Fade
+import com.selvaraj.forecastweatherapp.adapter.DayWeatherAdapter
 import com.selvaraj.forecastweatherapp.adapter.ForecastWeatherAdapter
-import com.selvaraj.forecastweatherapp.adapter.TodayWeatherAdapter
 import com.selvaraj.forecastweatherapp.databinding.FragmentWeatherBinding
+import com.selvaraj.forecastweatherapp.model.DayWeather
 import com.selvaraj.forecastweatherapp.model.LocationGotEvent
-import com.selvaraj.forecastweatherapp.model.TodayWeather
 import com.selvaraj.forecastweatherapp.model.response.WeatherList
-import com.selvaraj.forecastweatherapp.utils.*
+import com.selvaraj.forecastweatherapp.ui.WeatherFragmentDirections.actionForecastWeatherFragment
+import com.selvaraj.forecastweatherapp.utils.LocationServicesManager
+import com.selvaraj.forecastweatherapp.utils.getParticularWeatherList
+import com.selvaraj.forecastweatherapp.utils.toast
 import com.selvaraj.forecastweatherapp.viewmodel.WeatherViewModel
 import com.selvaraj.forecastweatherapp.viewmodel.WeatherViewModelFactory
 import org.greenrobot.eventbus.EventBus
@@ -29,7 +32,7 @@ import permissions.dispatcher.*
 @RuntimePermissions
 class WeatherFragment : Fragment() {
 
-    private var todayAdapter: TodayWeatherAdapter? = null
+    private var dayAdapter: DayWeatherAdapter? = null
     private var forecastAdapter: ForecastWeatherAdapter? = null
 
     private val weatherViewModel: WeatherViewModel by lazy {
@@ -61,8 +64,12 @@ class WeatherFragment : Fragment() {
             setTodayAdapters(rvTodayWeather)
             setForecastAdapter(rvForecastWeather)
         }
-        getWeatherDetailsWithPermissionCheck()
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        getWeatherDetailsWithPermissionCheck()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -72,7 +79,7 @@ class WeatherFragment : Fragment() {
         })
 
         weatherViewModel.getTodayWeatherData().observe(requireActivity(), Observer { list ->
-            todayAdapter?.setList(list)
+            dayAdapter?.setList(list)
         })
 
         weatherViewModel.getForecastWeatherData().observe(requireActivity(), Observer { list ->
@@ -88,6 +95,11 @@ class WeatherFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         EventBus.getDefault().unregister(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        weatherViewModel.reset()
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -125,14 +137,14 @@ class WeatherFragment : Fragment() {
     }
 
     @OnPermissionDenied(Manifest.permission.ACCESS_FINE_LOCATION)
-    fun onCameraDenied() {
+    fun onLocationDenied() {
         requireContext().toast("Location permission needed")
     }
 
     private fun setTodayAdapters(rvTodayWeather: RecyclerView) {
-        val todayItems: MutableList<TodayWeather> = mutableListOf()
-        todayAdapter = TodayWeatherAdapter(todayItems)
-        rvTodayWeather.adapter = todayAdapter
+        val dayItems: MutableList<DayWeather> = mutableListOf()
+        dayAdapter = DayWeatherAdapter(dayItems)
+        rvTodayWeather.adapter = dayAdapter
         rvTodayWeather.setHasFixedSize(true)
     }
 

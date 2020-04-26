@@ -11,12 +11,21 @@
 
         <action
             android:id="@+id/action_forecast_weather_fragment"
-            app:destination="@id/forecast_weather_fragment"/>
+            app:destination="@id/forecast_weather_fragment"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_top"
+            app:popEnterAnim="@anim/slide_in_top"
+            app:popExitAnim="@anim/slide_out_bottom"/>
     </fragment>
 
     <fragment
         android:id="@+id/forecast_weather_fragment"
         android:name="com.selvaraj.forecastweatherapp.ui.ForecastWeatherFragment"
         android:label="@string/forecast_weather_details"
-        tools:layout="@layout/fragment_forecast_weather"/>
+        tools:layout="@layout/fragment_forecast_weather">
+
+        <argument
+            android:name="weatherResponse"
+            app:argType="com.selvaraj.forecastweatherapp.model.response.WeatherResponse"/>
+    </fragment>
 </navigation>

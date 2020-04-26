@@ -6,12 +6,11 @@ import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.selvaraj.forecastweatherapp.R
-import com.selvaraj.forecastweatherapp.base.BaseViewModel
 import com.selvaraj.forecastweatherapp.base.WeatherApplication
-import com.selvaraj.forecastweatherapp.model.TodayWeather
-import com.selvaraj.forecastweatherapp.model.UiState
+import com.selvaraj.forecastweatherapp.model.DayWeather
 import com.selvaraj.forecastweatherapp.model.response.WeatherList
 import com.selvaraj.forecastweatherapp.model.response.WeatherResponse
 import com.selvaraj.forecastweatherapp.retrofit.ApiInterface
@@ -21,7 +20,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.launch
 
-class WeatherViewModel : BaseViewModel() {
+class WeatherViewModel : ViewModel() {
     private var context: Context? = null
     var progress: ObservableInt = ObservableInt(View.VISIBLE)
     var isFailed: ObservableInt = ObservableInt(View.GONE)
@@ -33,17 +32,18 @@ class WeatherViewModel : BaseViewModel() {
     var humidity: ObservableField<String> = ObservableField("")
     var wind: ObservableField<String> = ObservableField("")
     var pressure: ObservableField<String> = ObservableField("")
+    var weatherList: List<WeatherList>? = emptyList()
 
     private val retryData: MutableLiveData<Any> = MutableLiveData()
     fun retryData(): LiveData<Any> = retryData
 
-    private val todayWeatherData: MutableLiveData<MutableList<TodayWeather>> = MutableLiveData()
-    fun getTodayWeatherData(): LiveData<MutableList<TodayWeather>> = todayWeatherData
+    private val dayWeatherData: MutableLiveData<MutableList<DayWeather>> = MutableLiveData()
+    fun getTodayWeatherData(): LiveData<MutableList<DayWeather>> = dayWeatherData
 
     private val forecastWeatherData: MutableLiveData<MutableList<WeatherList>> = MutableLiveData()
     fun getForecastWeatherData(): LiveData<MutableList<WeatherList>> = forecastWeatherData
 
-    private val compositeDisposable = CompositeDisposable()
+    private var compositeDisposable: CompositeDisposable? = CompositeDisposable()
 
     init {
         context = WeatherApplication.mInstance
@@ -55,7 +55,6 @@ class WeatherViewModel : BaseViewModel() {
     }
 
     fun getWeatherData(latitude: Double, longitude: Double) {
-        uiState.value = UiState.Loading
         viewModelScope.launch {
             try {
                 val application = WeatherApplication.mInstance
@@ -81,15 +80,18 @@ class WeatherViewModel : BaseViewModel() {
                             throwable.printStackTrace()
                         })
 
-                compositeDisposable.add(disposable)
+                compositeDisposable?.add(disposable)
             } catch (exception: Exception) {
-                uiState.value = UiState.Error("Network Request failed")
+                progress.set(View.GONE)
+                isFailed.set(View.VISIBLE)
+                hasData.set(View.GONE)
             }
         }
     }
 
     private fun updateUi(response: WeatherResponse?) {
         val list = response?.list
+        weatherList = list
         if (list?.isNotEmpty() == true) {
             val weatherItem = list[0]
             todayDate.set(weatherItem.dtTxt.getDateWithDay())
@@ -111,8 +113,13 @@ class WeatherViewModel : BaseViewModel() {
             }
 
             val weatherItemList = getWeatherItemList(list)
-            todayWeatherData.value = weatherItemList.first
+            dayWeatherData.value = weatherItemList.first
             forecastWeatherData.value = weatherItemList.second
         }
+    }
+
+    fun reset() {
+        compositeDisposable?.dispose()
+        compositeDisposable = null
     }
 }

@@ -32,6 +32,9 @@
     <dimen name="spacing_30">30dp</dimen>
     <dimen name="spacing_31">31dp</dimen>
     <dimen name="spacing_32">32dp</dimen>
+    <dimen name="spacing_40">40dp</dimen>
+    <dimen name="toolbar_elevation">@dimen/spacing_5</dimen>
+    <dimen name="weather_detail_app_bar_height">180dp</dimen>
 
     <dimen name="font_1">1sp</dimen>
     <dimen name="font_2">2sp</dimen>

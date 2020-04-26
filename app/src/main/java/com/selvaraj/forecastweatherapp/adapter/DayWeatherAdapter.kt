@@ -6,11 +6,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.selvaraj.forecastweatherapp.R
 import com.selvaraj.forecastweatherapp.databinding.TodayWeatherItemBinding
-import com.selvaraj.forecastweatherapp.model.TodayWeather
+import com.selvaraj.forecastweatherapp.model.DayWeather
 import com.selvaraj.forecastweatherapp.viewmodel.TodayWeatherItemViewModel
 
-class TodayWeatherAdapter(private var todayWeather: MutableList<TodayWeather>) :
-    RecyclerView.Adapter<TodayWeatherAdapter.TodayWeatherViewHolder>() {
+class DayWeatherAdapter(private var dayWeather: MutableList<DayWeather>) :
+    RecyclerView.Adapter<DayWeatherAdapter.TodayWeatherViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodayWeatherViewHolder {
         val itemBinding: TodayWeatherItemBinding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
@@ -21,22 +21,26 @@ class TodayWeatherAdapter(private var todayWeather: MutableList<TodayWeather>) :
         return TodayWeatherViewHolder(binding = itemBinding)
     }
 
-    override fun getItemCount(): Int = todayWeather.size
+    override fun getItemCount(): Int = dayWeather.size
 
     override fun onBindViewHolder(holder: TodayWeatherViewHolder, position: Int) {
-        holder.bindItem(todayWeather[holder.adapterPosition])
+        holder.bindItem(dayWeather[holder.adapterPosition])
     }
 
-    fun setList(todayWeather: MutableList<TodayWeather>) {
-        this.todayWeather = todayWeather
+    fun setList(dayWeather: MutableList<DayWeather>) {
+        this.dayWeather = dayWeather
         notifyDataSetChanged()
     }
 
     inner class TodayWeatherViewHolder(private val binding: TodayWeatherItemBinding) :
         RecyclerView.ViewHolder(binding.itemToday) {
-        fun bindItem(todayWeather: TodayWeather) {
+        fun bindItem(weather: DayWeather) {
             binding.todayViewModel =
-                TodayWeatherItemViewModel(itemView.context, todayItem = todayWeather)
+                TodayWeatherItemViewModel(
+                    itemView.context,
+                    dayItem = weather,
+                    position = dayWeather.indexOf(weather)
+                )
         }
     }
 }

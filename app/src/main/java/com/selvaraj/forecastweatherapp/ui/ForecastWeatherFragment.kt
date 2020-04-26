@@ -12,11 +12,6 @@ import com.selvaraj.forecastweatherapp.viewmodel.ForecastWeatherViewModel
 
 class ForecastWeatherFragment : Fragment() {
 
-    companion object {
-        fun newInstance() =
-            ForecastWeatherFragment()
-    }
-
     private lateinit var viewModel: ForecastWeatherViewModel
 
     override fun onCreateView(
@@ -29,7 +24,6 @@ class ForecastWeatherFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(ForecastWeatherViewModel::class.java)
-        // TODO: Use the ViewModel
     }
 
 }

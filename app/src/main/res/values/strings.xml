@@ -2,4 +2,12 @@
     <string name="app_name">ForecastWeatherApp</string>
     <string name="forecast_weather_details">Forecast weather details</string>
     <string name="weather_status">Weather status</string>
+    <string name="now">Now</string>
+    <string name="weather_celsius_format">%1$.0f \u00B0</string>
+    <string name="weather_error_message">Something went wrong while getting weather details! Please try again…</string>
+    <string name="retry">Retry</string>
+    <string name="humidity">Humidity</string>
+    <string name="wind">Wind</string>
+    <string name="pressure">Pressure</string>
+    <string name="humidity_value">%d %</string>
 </resources>

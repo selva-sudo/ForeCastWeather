@@ -5,17 +5,17 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
-            name="hasWeatherData"
-            type="boolean"/>
+            name="viewmodel"
+            type="com.selvaraj.forecastweatherapp.viewmodel.WeatherViewModel"/>
     </data>
 
-    <FrameLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
-        tools:context=".ui.WeatherFragment">
+        android:fitsSystemWindows="true">
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
@@ -40,6 +40,7 @@
                     android:gravity="center"
                     android:paddingStart="@dimen/spacing_10"
                     android:paddingEnd="@dimen/spacing_8"
+                    android:text="@{viewmodel.todayDate}"
                     android:textColor="@android:color/white"
                     android:textSize="25sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -48,28 +49,16 @@
                     tools:text="Sunday, 25"/>
 
                 <TextView
-                    android:id="@+id/tv_city"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/baloo_tamma_semi_bold"
-                    android:textColor="@android:color/white"
-                    android:textSize="20sp"
-                    app:layout_constraintEnd_toStartOf="@+id/iv_weather_state"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_day"
-                    app:layout_constraintWidth_percent="0.6"
-                    tools:text="Chennai"/>
-
-                <TextView
                     android:id="@+id/tv_today_temp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/baloo_tamma_bold"
+                    android:text="@{viewmodel.todayTemp}"
                     android:textColor="@android:color/white"
                     android:textSize="30sp"
                     app:layout_constraintEnd_toStartOf="@+id/iv_weather_state"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_city"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_day"
                     app:layout_constraintWidth_percent="0.6"
                     tools:text="16 \u00B0"/>
 
@@ -78,6 +67,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/baloo_tamma_bold"
+                    android:text="@{viewmodel.weatherStatus}"
                     android:textColor="@android:color/white"
                     app:layout_constraintEnd_toStartOf="@+id/iv_weather_state"
                     app:layout_constraintStart_toStartOf="parent"
@@ -90,43 +80,212 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="end"
-                    app:constraint_referenced_ids="tv_city,tv_today_temp,tv_today_weather"/>
+                    app:constraint_referenced_ids="tv_today_temp,tv_today_weather"/>
 
                 <ImageView
                     android:id="@+id/iv_weather_state"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
-                    android:src="@drawable/ic_cloud_rain"
+                    app:imageUrl="@{viewmodel.imageUrl}"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_today_weather"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/barrier_weather_details"
                     app:layout_constraintTop_toBottomOf="@+id/tv_day"
-                    tools:ignore="ContentDescription"/>
+                    tools:ignore="ContentDescription"
+                    tools:src="@drawable/ic_cloud_rain"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_today_weather"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_10"
+                    android:orientation="horizontal"
                     android:paddingStart="@dimen/spacing_10"
                     android:paddingEnd="@dimen/spacing_8"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_today_weather"
-                    tools:itemCount="1"
                     tools:listitem="@layout/today_weather_item"/>
+
+                <TextView
+                    android:id="@+id/tv_humidity_header"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_8"
+                    android:layout_marginTop="@dimen/spacing_10"
+                    android:fontFamily="@font/baloo_tamma_regular"
+                    android:gravity="center"
+                    android:text="@string/humidity"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_16"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_wind_header"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rv_today_weather"/>
+
+                <TextView
+                    android:id="@+id/tv_humidity"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_5"
+                    android:fontFamily="@font/baloo_tamma_semi_bold"
+                    android:gravity="center"
+                    android:text="@{viewmodel.humidity}"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_20"
+                    app:layout_constraintEnd_toEndOf="@+id/tv_humidity_header"
+                    app:layout_constraintStart_toStartOf="@+id/tv_humidity_header"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_humidity_header"
+                    tools:text="80%"/>
+
+                <TextView
+                    android:id="@+id/tv_wind_header"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_10"
+                    android:fontFamily="@font/baloo_tamma_regular"
+                    android:gravity="center"
+                    android:text="@string/wind"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_16"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_pressure_header"
+                    app:layout_constraintStart_toEndOf="@+id/tv_humidity_header"
+                    app:layout_constraintTop_toBottomOf="@+id/rv_today_weather"/>
+
+                <TextView
+                    android:id="@+id/tv_wind"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_5"
+                    android:fontFamily="@font/baloo_tamma_semi_bold"
+                    android:gravity="center"
+                    android:text="@{viewmodel.wind}"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_20"
+                    app:layout_constraintEnd_toEndOf="@+id/tv_wind_header"
+                    app:layout_constraintStart_toStartOf="@+id/tv_wind_header"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_wind_header"
+                    tools:text="3 m/s"/>
+
+                <TextView
+                    android:id="@+id/tv_pressure_header"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_10"
+                    android:layout_marginEnd="@dimen/spacing_8"
+                    android:fontFamily="@font/baloo_tamma_regular"
+                    android:gravity="center"
+                    android:text="@string/pressure"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_16"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/tv_wind_header"
+                    app:layout_constraintTop_toBottomOf="@+id/rv_today_weather"/>
+
+                <TextView
+                    android:id="@+id/tv_pressure"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_5"
+                    android:fontFamily="@font/baloo_tamma_semi_bold"
+                    android:gravity="center"
+                    android:text="@{viewmodel.pressure}"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_20"
+                    app:layout_constraintEnd_toEndOf="@+id/tv_pressure_header"
+                    app:layout_constraintStart_toStartOf="@+id/tv_pressure_header"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_pressure_header"
+                    tools:text="740 hPa"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_forecast_weather"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/spacing_5"
                     android:background="@drawable/ic_bg_forecast_weather"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/rv_today_weather"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_humidity"
+                    app:layout_constraintVertical_bias="1.0"
                     tools:listitem="@layout/forecast_weather_item"/>
+
+                <ProgressBar
+                    android:id="@+id/progress_people"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:visibility="@{viewmodel.progress}"
+                    tools:visibility="gone"/>
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/group_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{viewmodel.hasData}"
+                    app:constraint_referenced_ids="rv_forecast_weather,rv_today_weather,iv_weather_state,tv_today_weather,tv_today_temp,iv_weather_state,tv_day,tv_humidity_header,tv_humidity,tv_wind_header,tv_wind,tv_pressure_header,tv_pressure"/>
+
+                <TextView
+                    android:id="@+id/tv_fail_message"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_8"
+                    android:fontFamily="@font/baloo_tamma_regular"
+                    android:gravity="center"
+                    android:text="@string/weather_error_message"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_17"
+                    app:layout_constraintBottom_toTopOf="@+id/btn_retry"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    app:layout_constraintWidth_percent="0.7"/>
+
+                <Button
+                    android:id="@+id/btn_retry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_8"
+                    android:background="@drawable/ic_bg_retry"
+                    android:fontFamily="@font/baloo_tamma_semi_bold"
+                    android:onClick="@{viewmodel::onRetryClick}"
+                    android:text="@string/retry"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_fail_message"/>
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/group_retry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{viewmodel.isFailed}"
+                    app:constraint_referenced_ids="btn_retry,tv_fail_message"
+                    tools:visibility="gone"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
-    </FrameLayout>
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                style="@style/Widget.AppCompat.Toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"/>
+        </com.google.android.material.appbar.AppBarLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

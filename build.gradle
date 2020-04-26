@@ -18,6 +18,17 @@ buildscript {
         navigationVersion = '2.2.2'
         espressoVersion = '3.1.1'
         testExtJunit = '1.1.0'
+        okHttpVersion = '4.5.0'
+        permissionDispatcher = '4.7.0'
+        googleServices = '4.3.3'
+        locationServices = '17.0.0'
+        eventBusVersion = '3.1.1'
+        retrofitVersion = '2.6.2'
+        retrofitConvertorVersion = '2.5.0'
+        glideVersion = '4.11.0'
+        rxAndroidVersion = '2.1.1'
+        rxJavaVersion = '2.2.19'
+        rxKotlinVersion = '2.4.0'
     }
     repositories {
         google()
@@ -38,7 +49,6 @@ allprojects {
     repositories {
         google()
         jcenter()
-
     }
 }
 

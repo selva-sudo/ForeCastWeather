@@ -4,6 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.selvaraj.forecastweatherapp.model.response.WeatherResponse
 
+/**
+ * The view model factory which instantiate [ForecastWeatherViewModel]
+ */
 class ForecastViewModelFactory(private val weatherResponse: WeatherResponse) :
     ViewModelProvider.Factory {
 

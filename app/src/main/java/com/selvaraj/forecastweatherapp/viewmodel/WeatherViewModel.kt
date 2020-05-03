@@ -6,9 +6,9 @@ import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.selvaraj.forecastweatherapp.R
+import com.selvaraj.forecastweatherapp.base.BaseObservable
 import com.selvaraj.forecastweatherapp.base.WeatherApplication
 import com.selvaraj.forecastweatherapp.model.DayWeather
 import com.selvaraj.forecastweatherapp.model.response.WeatherList
@@ -20,8 +20,13 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.launch
 
-class WeatherViewModel : ViewModel() {
+/**
+ * The view model class for weather data
+ */
+class WeatherViewModel : BaseObservable() {
     private var context: Context? = null
+
+    // UI fields data
     var progress: ObservableInt = ObservableInt(View.VISIBLE)
     var isFailed: ObservableInt = ObservableInt(View.GONE)
     var hasData: ObservableInt = ObservableInt(View.GONE)
@@ -33,7 +38,9 @@ class WeatherViewModel : ViewModel() {
     var wind: ObservableField<String> = ObservableField("")
     var pressure: ObservableField<String> = ObservableField("")
     var weatherList: List<WeatherList>? = emptyList()
+    var retrytext: ObservableField<String> = ObservableField("")
 
+    //Live data calls
     private val retryData: MutableLiveData<Any> = MutableLiveData()
     fun retryData(): LiveData<Any> = retryData
 
@@ -49,38 +56,52 @@ class WeatherViewModel : ViewModel() {
         context = WeatherApplication.mInstance
     }
 
+    /**
+     * called when retry clicked.
+     */
     fun onRetryClick(view: View) {
         progress.set(View.VISIBLE)
         retryData.value = ""
     }
 
+    /**
+     * To get the weather data from API
+     */
     fun getWeatherData(latitude: Double, longitude: Double) {
         viewModelScope.launch {
             try {
-                val application = WeatherApplication.mInstance
-                val apiInterface: ApiInterface = application.mApiInterface
-                val disposable: Disposable =
-                    apiInterface.getWeatherData(
-                        appid = APP_ID,
-                        latitude = latitude,
-                        longitude = longitude,
-                        units = WEATHER_UNITS
-                    )
-                        .subscribeOn(application.subscribeScheduler())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({ response ->
-                            updateUi(response)
-                            progress.set(View.GONE)
-                            isFailed.set(View.GONE)
-                            hasData.set(View.VISIBLE)
-                        }, { throwable ->
-                            progress.set(View.GONE)
-                            isFailed.set(View.VISIBLE)
-                            hasData.set(View.GONE)
-                            throwable.printStackTrace()
-                        })
+                if (WeatherApplication.isNetworkConnected) {
+                    val application = WeatherApplication.mInstance
+                    val apiInterface: ApiInterface = application.mApiInterface
+                    val disposable: Disposable =
+                        apiInterface.getWeatherData(
+                            appid = APP_ID,
+                            latitude = latitude,
+                            longitude = longitude,
+                            units = WEATHER_UNITS
+                        )
+                            .subscribeOn(application.subscribeScheduler())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe({ response ->
+                                updateUi(response)
+                                progress.set(View.GONE)
+                                isFailed.set(View.GONE)
+                                hasData.set(View.VISIBLE)
+                            }, { throwable ->
+                                progress.set(View.GONE)
+                                isFailed.set(View.VISIBLE)
+                                retrytext.set(context?.getString(R.string.weather_error_message))
+                                hasData.set(View.GONE)
+                                throwable.printStackTrace()
+                            })
 
-                compositeDisposable?.add(disposable)
+                    compositeDisposable?.add(disposable)
+                } else {
+                    progress.set(View.GONE)
+                    isFailed.set(View.VISIBLE)
+                    hasData.set(View.GONE)
+                    retrytext.set(context?.getString(R.string.no_internet_connection))
+                }
             } catch (exception: Exception) {
                 progress.set(View.GONE)
                 isFailed.set(View.VISIBLE)
@@ -89,6 +110,9 @@ class WeatherViewModel : ViewModel() {
         }
     }
 
+    /**
+     * To update the UI from response
+     */
     private fun updateUi(response: WeatherResponse?) {
         val list = response?.list
         weatherList = list
@@ -118,6 +142,9 @@ class WeatherViewModel : ViewModel() {
         }
     }
 
+    /**
+     * To reset the disposable
+     */
     fun reset() {
         compositeDisposable?.dispose()
         compositeDisposable = null

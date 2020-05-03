@@ -3,20 +3,20 @@ package com.selvaraj.forecastweatherapp.model.response
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class Weather {
+data class Weather(
     @SerializedName("id")
     @Expose
-    val id: Int? = null
+    val id: Int? = null,
 
     @SerializedName("main")
     @Expose
-    val main: String? = null
+    val main: String? = null,
 
     @SerializedName("description")
     @Expose
-    val description: String? = null
+    val description: String? = null,
 
     @SerializedName("icon")
     @Expose
     val icon: String? = null
-}
+)

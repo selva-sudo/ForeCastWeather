@@ -7,6 +7,9 @@ import com.selvaraj.forecastweatherapp.model.response.WeatherList
 import com.selvaraj.forecastweatherapp.utils.getDateWithDay
 import com.selvaraj.forecastweatherapp.utils.getIconUrl
 
+/**
+ * The viewmodel class for forecast weather item
+ */
 class ForecastWeatherItemViewModel(context: Context, var weatherItem: WeatherList) :
     BaseObservable() {
     val period = weatherItem.dtTxt.getDateWithDay()

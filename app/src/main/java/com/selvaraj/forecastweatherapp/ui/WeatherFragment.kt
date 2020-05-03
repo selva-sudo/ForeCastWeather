@@ -29,6 +29,9 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import permissions.dispatcher.*
 
+/**
+ * The fragment class for weather fragment -- Main
+ */
 @RuntimePermissions
 class WeatherFragment : Fragment() {
 
@@ -95,6 +98,7 @@ class WeatherFragment : Fragment() {
             val longitude = it.longitude
             weatherViewModel.getWeatherData(latitude, longitude)
         }
+        LocationServicesManager.getInstance(requireContext())?.removeLocationUpdates()
     }
 
     @SuppressLint("NeedOnRequestPermissionsResult")
@@ -127,6 +131,9 @@ class WeatherFragment : Fragment() {
         requireContext().toast("Location permission needed")
     }
 
+    /**
+     * To set the adapter for current day items
+     */
     private fun setTodayAdapters(rvTodayWeather: RecyclerView) {
         val dayItems: MutableList<DayWeather> = mutableListOf()
         dayAdapter = DayWeatherAdapter(dayItems)
@@ -134,6 +141,9 @@ class WeatherFragment : Fragment() {
         rvTodayWeather.setHasFixedSize(true)
     }
 
+    /**
+     * To set the adapter for forecast items
+     */
     private fun setForecastAdapter(rvForecastWeather: RecyclerView) {
         val forecastItems: MutableList<WeatherList> = mutableListOf()
         forecastAdapter = ForecastWeatherAdapter(
@@ -155,6 +165,9 @@ class WeatherFragment : Fragment() {
         rvForecastWeather.setHasFixedSize(true)
     }
 
+    /**
+     * The callback for forecast item click
+     */
     interface Callback {
         fun onForecastItemClick(weatherItem: WeatherList?)
     }

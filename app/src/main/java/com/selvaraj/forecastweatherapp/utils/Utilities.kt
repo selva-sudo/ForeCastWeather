@@ -13,26 +13,48 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
-const val WEATHER_DATE_PATTERN = "yyyy-MM-dd HH:mm:ss"
-
+/**
+ * To display the toast message with [Context]
+ */
 fun Context?.toast(text: CharSequence, duration: Int = Toast.LENGTH_LONG) =
     this?.let { Toast.makeText(it, text, duration).show() }
 
+/**
+ * To get the day of the month from [Date]
+ */
 fun Date?.getDayFromDate() = DateFormat.format("EEEE", this) as String // Thursday
 
+/**
+ * To get the date of the month from [Date]
+ */
 fun Date?.getDateFromDate() = DateFormat.format("dd", this) as String // 20
 
+/**
+ * To get the hour of the day from [Date]
+ */
 fun Date?.getHourFromDate() = DateFormat.format("HH", this) as String // 10
 
+/**
+ * To get the minute
+ */
 fun Date?.getMinFromDate() = DateFormat.format("mm", this) as String // :30
 
+/**
+ * To get the date appended with date string
+ */
 fun String?.getDateWithDay(): String {
     val date = getDate(this)
     return date.getDayFromDate() + "," + date.getDateFromDate()
 }
 
+/**
+ * To get the icon URL to fetch the weather icon.
+ */
 fun String?.getIconUrl(): String = WEATHER_ICON_URL + this + WEATHER_ITEM_EXTENSION
 
+/**
+ * To get the date from the specified [SimpleDateFormat]
+ */
 fun getDate(dateResponse: String?): Date? {
     val format = SimpleDateFormat(WEATHER_DATE_PATTERN, Locale.getDefault())
     try {
@@ -43,16 +65,28 @@ fun getDate(dateResponse: String?): Date? {
     return null
 }
 
-fun checkToday(date: Date?): Boolean {
-    return Date().getDateFromDate() == date.getDateFromDate()
-}
+/**
+ * To check whether the date is today or not
+ */
+fun Date?.checkToday() = Date().getDateFromDate() == this.getDateFromDate()
 
+/**
+ * To check the two dates are not equal
+ */
 fun Date?.checkDatesNotEqual(date: Date?): Boolean =
     this.getDateFromDate() != date.getDateFromDate()
 
+/**
+ * To check the dates are equal
+ */
 fun Date?.checkDatesEqual(date: Date?): Boolean =
     this.getDateFromDate() == date.getDateFromDate()
 
+/**
+ * To get the weather items list to display in main screen
+ * Get the filtered Today weather data and Forecast weather data (For next five days(First hour of the day))
+ * @return The [Pair] data.
+ */
 fun getWeatherItemList(weatherList: List<WeatherList>): Pair<MutableList<DayWeather>, MutableList<WeatherList>> {
     val dayWeather: MutableList<DayWeather> = mutableListOf()
     val forecastWeather: MutableList<WeatherList> = mutableListOf()
@@ -61,7 +95,7 @@ fun getWeatherItemList(weatherList: List<WeatherList>): Pair<MutableList<DayWeat
         val weather = weatherList[position]
         val weatherItem = weather.weather
         val date = getDate(weather.dtTxt)
-        if (checkToday(date)) {
+        if (date.checkToday()) {
             var url: String? = ""
             if (weatherItem?.isNotEmpty() == true) {
                 url = weatherItem[0].icon
@@ -85,6 +119,9 @@ fun getWeatherItemList(weatherList: List<WeatherList>): Pair<MutableList<DayWeat
     return Pair(dayWeather, forecastWeather)
 }
 
+/**
+ * To get the particular days weather data from the whole weather response.
+ */
 fun getParticularWeatherList(
     weatherItem: WeatherList,
     weatherList: List<WeatherList>?

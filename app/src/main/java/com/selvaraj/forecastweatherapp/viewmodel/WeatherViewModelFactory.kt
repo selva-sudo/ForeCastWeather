@@ -3,6 +3,9 @@ package com.selvaraj.forecastweatherapp.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
+/**
+ * The view model factory which instantiate [WeatherViewModel]
+ */
 object WeatherViewModelFactory : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

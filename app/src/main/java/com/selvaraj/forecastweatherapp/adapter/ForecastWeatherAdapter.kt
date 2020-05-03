@@ -10,6 +10,9 @@ import com.selvaraj.forecastweatherapp.model.response.WeatherList
 import com.selvaraj.forecastweatherapp.ui.WeatherFragment
 import com.selvaraj.forecastweatherapp.viewmodel.ForecastWeatherItemViewModel
 
+/**
+ * The adapter class which binds the forecast weather items
+ */
 class ForecastWeatherAdapter(
     private var weatherList: MutableList<WeatherList>,
     private var itemClickCallback: WeatherFragment.Callback
@@ -35,6 +38,9 @@ class ForecastWeatherAdapter(
         holder.bindItem(weatherList[holder.adapterPosition])
     }
 
+    /**
+     * To update the data once fetched from API
+     */
     fun setList(weatherList: MutableList<WeatherList>) {
         this.weatherList = weatherList
         notifyDataSetChanged()

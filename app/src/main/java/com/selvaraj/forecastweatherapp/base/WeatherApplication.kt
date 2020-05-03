@@ -11,6 +11,9 @@ import com.selvaraj.forecastweatherapp.retrofit.ApiManager
 import io.reactivex.Scheduler
 import io.reactivex.schedulers.Schedulers
 
+/**
+ * Base application class.
+ */
 class WeatherApplication : Application() {
     private val TAG = WeatherApplication::class.java.simpleName
     lateinit var mApiInterface: ApiInterface
@@ -23,6 +26,9 @@ class WeatherApplication : Application() {
         startNetworkListener()
     }
 
+    /**
+     * To subscribe the scheduler for disposable
+     */
     fun subscribeScheduler(): Scheduler? {
         if (scheduler == null) {
             scheduler = Schedulers.io()
@@ -36,8 +42,6 @@ class WeatherApplication : Application() {
 
         /**
          * Method to check network connectivity status
-         *
-         * @return Whether internet is connected or not
          */
         fun startNetworkListener() {
             try {

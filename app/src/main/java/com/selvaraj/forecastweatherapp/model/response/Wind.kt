@@ -3,12 +3,12 @@ package com.selvaraj.forecastweatherapp.model.response
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class Wind {
+data class Wind(
     @SerializedName("speed")
     @Expose
-    val speed: Double? = null
+    val speed: Double? = null,
 
     @SerializedName("deg")
     @Expose
     val deg: Int? = null
-}
+)

@@ -7,6 +7,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.selvaraj.forecastweatherapp.R
 
+/**
+ * To load the image ito view using [Glide]
+ */
 @BindingAdapter("imageUrl")
 fun setImageUrl(imageView: ImageView, url: String?) {
     Glide.with(imageView.context).load(url)

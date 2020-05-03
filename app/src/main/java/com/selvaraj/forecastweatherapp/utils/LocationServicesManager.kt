@@ -8,6 +8,9 @@ import com.google.android.gms.location.*
 import com.selvaraj.forecastweatherapp.model.LocationGotEvent
 import org.greenrobot.eventbus.EventBus
 
+/**
+ * The manager class for location services
+ */
 class LocationServicesManager() {
     constructor(context: Context) : this() {
         this.context = context
@@ -50,6 +53,9 @@ class LocationServicesManager() {
         }
     }
 
+    /**
+     * To request the location updates
+     */
     fun requestLocation(mainLooper: Looper?) {
         mFusedLocationClient?.requestLocationUpdates(
             getLocationRequestObject(),
@@ -71,7 +77,10 @@ class LocationServicesManager() {
         return locationRequest
     }
 
-    fun getLastLocation(): Location? {
-        return lastLocation
+    /**
+     * To remove the location updates
+     */
+    fun removeLocationUpdates() {
+        mFusedLocationClient?.removeLocationUpdates(locationCallback)
     }
 }

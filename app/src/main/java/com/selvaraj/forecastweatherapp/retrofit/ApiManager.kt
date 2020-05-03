@@ -1,18 +1,19 @@
 package com.selvaraj.forecastweatherapp.retrofit
 
 import com.google.gson.GsonBuilder
-import com.selvaraj.forecastweatherapp.base.WeatherApplication
 import com.selvaraj.forecastweatherapp.utils.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
+/**
+ * The manager class for API operations
+ */
 class ApiManager {
     companion object {
         private const val TIMEOUT = 30.toLong()
@@ -53,7 +54,7 @@ class ApiManager {
         /**
          * Method which builds the retrofit with baseUrl and Client sent
          *
-         * @param this@buildRetrofit Client with request and header details
+         * @param [@this.buildRetrofit] Client with request and header details
          * @return Retrofit
          */
         private fun OkHttpClient.buildRetrofit(): Retrofit {
@@ -63,21 +64,6 @@ class ApiManager {
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
-        }
-    }
-
-    /**
-     * Common Method to check the network connection before retrofit call and perform appropriate action
-     *
-     * @param call     represents the method which need to be called (present in TGApiInterface)
-     * @param callback represents the which method to be called if there is network present or not present (callback result)
-     * @param <T>      represents the common template which is used in this method, able to get calling class using <T> format
-     */
-    private fun <T> request(call: Call<T>, callback: RetrofitCallback<T>) {
-        if (WeatherApplication.isNetworkConnected) {
-            call.enqueue(callback)
-        } else {
-            callback.onNoNetwork()
         }
     }
 }

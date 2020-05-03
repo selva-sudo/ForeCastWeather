@@ -18,6 +18,9 @@ import com.selvaraj.forecastweatherapp.viewmodel.ForecastViewModelFactory
 import com.selvaraj.forecastweatherapp.viewmodel.ForecastWeatherViewModel
 
 
+/**
+ * The fragment class for forecast weather data.
+ */
 class ForecastWeatherFragment : Fragment() {
 
     private var dayAdapter: DayWeatherAdapter? = null
@@ -72,6 +75,10 @@ class ForecastWeatherFragment : Fragment() {
         })
     }
 
+    /**
+     * Set the adapter for forecast recycler view
+     * @param rvCurrentWeather The recycler view to set the adapter.
+     */
     private fun setAdapter(rvCurrentWeather: RecyclerView) {
         val dayItems: MutableList<DayWeather> = mutableListOf()
         dayAdapter = DayWeatherAdapter(dayItems)

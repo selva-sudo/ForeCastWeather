@@ -4,14 +4,17 @@ import android.content.Context
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.selvaraj.forecastweatherapp.R
+import com.selvaraj.forecastweatherapp.base.BaseObservable
 import com.selvaraj.forecastweatherapp.base.WeatherApplication
 import com.selvaraj.forecastweatherapp.model.DayWeather
 import com.selvaraj.forecastweatherapp.model.response.WeatherResponse
 import com.selvaraj.forecastweatherapp.utils.*
 
-class ForecastWeatherViewModel(weatherResponse: WeatherResponse) : ViewModel() {
+/**
+ *  The view model for forecast weather data
+ */
+class ForecastWeatherViewModel(weatherResponse: WeatherResponse) : BaseObservable() {
     private var context: Context? = null
     var weatherState: ObservableField<String> = ObservableField("")
     var weatherDescription: ObservableField<String> = ObservableField("")

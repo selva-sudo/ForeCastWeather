@@ -35,6 +35,10 @@ android {
         jvmTarget = "1.8"
     }
 
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
 }
 
 dependencies {
@@ -42,6 +46,9 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintLayoutVersion"
     implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.navigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$rootProject.navigationVersion"
+    implementation "androidx.legacy:legacy-support-v4:$rootProject.supportVersion"
+    implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifeCycleVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.lifeCycleVersion"
     // For Logging purpose
     implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.okHttpVersion"
     // Retrofit
@@ -64,12 +71,15 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxkotlin:$rootProject.rxKotlinVersion"
 
     // Testing dependencies
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
-    androidTestImplementation "androidx.test.espresso:espresso-contrib:$rootProject.espressoVersion"
+    testImplementation "junit:junit:$rootProject.jUnitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-intents:$rootProject.espressoVersion"
-    androidTestImplementation "androidx.test.ext:junit:$rootProject.testExtJunit"
-    testImplementation "junit:junit:$rootProject.junitVersion"
+    testImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
+    testImplementation "androidx.test.espresso:espresso-intents:$rootProject.espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
+    androidTestImplementation "androidx.test:runner:$rootProject.testRunnerVersion"
+    androidTestImplementation "androidx.test:rules:$rootProject.testRunnerVersion"
+    androidTestImplementation "androidx.test:core:$rootProject.coreVersion"
+    androidTestImplementation "androidx.test.ext:junit:$rootProject.extJUnitVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$rootProject.espressoVersion"
 }

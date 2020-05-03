@@ -7,6 +7,9 @@ import com.selvaraj.forecastweatherapp.base.BaseObservable
 import com.selvaraj.forecastweatherapp.model.DayWeather
 import com.selvaraj.forecastweatherapp.utils.getIconUrl
 
+/**
+ * The view model class for today weather item
+ */
 class TodayWeatherItemViewModel(
     context: Context,
     var dayItem: DayWeather,

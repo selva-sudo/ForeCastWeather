@@ -5,6 +5,9 @@ import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
 
+/**
+ * The interface which holds the API calls
+ */
 interface ApiInterface {
     @GET("forecast")
     fun getWeatherData(

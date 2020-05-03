@@ -9,8 +9,12 @@ import com.selvaraj.forecastweatherapp.databinding.TodayWeatherItemBinding
 import com.selvaraj.forecastweatherapp.model.DayWeather
 import com.selvaraj.forecastweatherapp.viewmodel.TodayWeatherItemViewModel
 
+/**
+ * The adapter class which binds the data of each day weather.
+ */
 class DayWeatherAdapter(private var dayWeather: MutableList<DayWeather>) :
     RecyclerView.Adapter<DayWeatherAdapter.TodayWeatherViewHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodayWeatherViewHolder {
         val itemBinding: TodayWeatherItemBinding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
